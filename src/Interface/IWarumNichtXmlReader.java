@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interfaces;
+package Interface;
 
+import dto.DeutschClassDataDto;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,5 +19,7 @@ public interface IWarumNichtXmlReader {
 
     String getRootName() throws Exception;
 
-    ArrayList getLessonsLinksWithTag(String tag) throws IOException,SAXException, ParserConfigurationException;
+    ArrayList<DeutschClassDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException;
+
+    String gtFilePath();
 }

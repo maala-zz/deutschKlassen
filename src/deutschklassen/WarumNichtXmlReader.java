@@ -5,7 +5,8 @@
  */
 package deutschklassen;
 
-import Interfaces.IWarumNichtXmlReader;
+import Interface.IWarumNichtXmlReader;
+import dto.DeutschClassDataDto;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -57,7 +58,7 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
     }
 
     @Override
-    public ArrayList<String> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException {
+    public ArrayList<DeutschClassDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException {
         try {
             ArrayList links = new ArrayList<String>(); // returned array
             this.db = dbf.newDocumentBuilder();
@@ -70,9 +71,14 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) node;
-                    String klasseLink = eElement.getElementsByTagName("link").item(0).getTextContent();
-                    links.add(klasseLink);
-                    System.out.println("mp3 link: " + klasseLink);
+                    String classLink = eElement.getElementsByTagName("link").item(0).getTextContent();
+                    String classTitle = eElement.getElementsByTagName("title").item(0).getTextContent();
+                    String classDescription = eElement.getElementsByTagName("description").item(0).getTextContent();
+                    DeutschClassDataDto data = new DeutschClassDataDto(classLink, classTitle, classDescription);
+                    links.add(data);
+                    System.out.println("Debug class link: " + classLink);
+                    System.out.println("Debug class title: " + classTitle);
+                    System.out.println("Debug class description: " + classDescription);
                 }
             }
             return links;
