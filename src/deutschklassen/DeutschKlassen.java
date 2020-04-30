@@ -5,17 +5,19 @@
  */
 package deutschklassen;
 
-/**
- *
- * @author ASUS
- */
+import Interfaces.IWarumNichtXmlReader;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class DeutschKlassen {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        WarumNichtXmlReader raeder = new WarumNichtXmlReader("");
+        String file = "F:\\Deutsch\\dk.xml";
+        IWarumNichtXmlReader reader = new WarumNichtXmlReader(file);
     }
-    
+
 }
