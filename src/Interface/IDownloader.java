@@ -15,4 +15,6 @@ import java.net.MalformedURLException;
 public interface IDownloader {
 
     void downloadHtmlPage(String webPage, String downloadedFileName) throws MalformedURLException, IOException;
+    
+    void downloadHtmlPageAsync(String webPage, String downloadedFileName) throws MalformedURLException, IOException;
 }

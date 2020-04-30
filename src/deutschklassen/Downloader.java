@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,7 +43,7 @@ public class Downloader implements IDownloader {
 
             // Enter filename in which you want to download 
             BufferedWriter writer
-                    = new BufferedWriter(new FileWriter("downloads/"+downloadedFileName + ".html"));
+                    = new BufferedWriter(new FileWriter("downloads/" + downloadedFileName + ".html"));
 
             // read each line from stream till end 
             String line;
@@ -58,6 +60,19 @@ public class Downloader implements IDownloader {
         } catch (IOException ie) {
             System.out.println("IOException raised");
         }
+    }
+
+    @Override
+    public void downloadHtmlPageAsync(String webPage, String downloadedFileName) throws MalformedURLException, IOException {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    downloadHtmlPage(webPage, downloadedFileName);
+                } catch (IOException ex) {
+                    Logger.getLogger(Downloader.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
     }
 
 //</editor-fold>

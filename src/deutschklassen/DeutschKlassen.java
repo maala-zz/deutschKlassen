@@ -24,9 +24,13 @@ public class DeutschKlassen {
         try {
             String file = "F:\\Deutsch\\dk.xml";
             IWarumNichtXmlReader reader = new WarumNichtXmlReader(file);
-            ArrayList<DeutschClassDataDto> temp = reader.getLessonsLinksWithTag("item");
+            ArrayList<DeutschClassDataDto> classesData = reader.getLessonsLinksWithTag("item");
             IDownloader downloader = new Downloader();
-            downloader.downloadHtmlPage("https://www.dw.com/en/chapter-23-whos-that-speaking/a-219694?maca=en-DKpodcast_dwn1_en-2257-xml-mrss", temp.get(0).title);
+            for (int i = 0; i < classesData.size(); ++i) {
+                DeutschClassDataDto classData = classesData.get(i);
+                downloader.downloadHtmlPageAsync(classData.url, classData.title);
+            }
+
         } catch (IOException ex) {
             Logger.getLogger(DeutschKlassen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
