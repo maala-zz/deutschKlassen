@@ -56,6 +56,7 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
         }
     }
 
+    @Override
     public ArrayList<String> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException {
         try {
             ArrayList links = new ArrayList<String>(); // returned array
@@ -86,6 +87,7 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
         }
     }
 
+    @Override
     public String gtFilePath() {
         return this.filePath;
     }
