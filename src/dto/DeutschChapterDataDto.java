@@ -9,7 +9,7 @@ package dto;
  *
  * @author ASUS
  */
-public class DeutschClassDataDto {
+public class DeutschChapterDataDto {
 
     //<editor-fold defaultstate="collapsed" desc="Proprties">
     public String url;
@@ -18,11 +18,11 @@ public class DeutschClassDataDto {
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructors">
-    public DeutschClassDataDto() {
+    public DeutschChapterDataDto() {
 
     }
 
-    public DeutschClassDataDto(String url, String title, String desc) {
+    public DeutschChapterDataDto(String url, String title, String desc) {
         this.url = url;
         this.desc = desc;
         this.title = title;

@@ -7,12 +7,18 @@ package deutschklassen;
 
 import Interface.IDownloader;
 import Interface.IWarumNichtXmlReader;
-import dto.DeutschClassDataDto;
+import Interface.IWebPageHandler;
+import dto.DeutschChapterDataDto;
+import dto.DeutschLessonDto;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
+import org.jsoup.nodes.Document;
 import org.xml.sax.SAXException;
 
 public class DeutschKlassen {
@@ -22,20 +28,28 @@ public class DeutschKlassen {
      */
     public static void main(String[] args) {
         try {
-            String file = "F:\\Deutsch\\dk.xml";
-            IWarumNichtXmlReader reader = new WarumNichtXmlReader(file);
-            ArrayList<DeutschClassDataDto> classesData = reader.getLessonsLinksWithTag("item");
-            IDownloader downloader = new Downloader();
+            ExecutorService pool = Executors.newFixedThreadPool(5);
+            String xmlFile = ".\\xml\\dk.xml";
+
+            IWarumNichtXmlReader reader = new WarumNichtXmlReader(xmlFile);
+
+            ArrayList<DeutschChapterDataDto> classesData = reader.getLessonsLinksWithTag("item");
+
+//            IDownloader downloader = new Downloader();
+//            for (int i = 0; i < classesData.size(); ++i) {
+//                DeutschChapterDataDto classData = classesData.get(i);
+//                downloader.downloadHtmlPageAsync(classData.url, classData.title);
+//            }
             for (int i = 0; i < classesData.size(); ++i) {
-                DeutschClassDataDto classData = classesData.get(i);
-                downloader.downloadHtmlPageAsync(classData.url, classData.title);
+                DeutschChapterDataDto chapter = classesData.get(i);
+                WebPageHandler classesHandler = new WebPageHandler();
+                Document doc = classesHandler.parseHtmlPageToDoc(chapter.url);
+                //DeutschLessonDto lesson = classesHandler.fetchPdfAndMp3FilesLinks();
+                Future<DeutschLessonDto> lessonResult = pool.submit(classesHandler);
+                System.out.println(lessonResult.get());
             }
 
-        } catch (IOException ex) {
-            Logger.getLogger(DeutschKlassen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(DeutschKlassen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DeutschKlassen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

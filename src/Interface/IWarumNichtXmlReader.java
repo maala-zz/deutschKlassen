@@ -5,7 +5,7 @@
  */
 package Interface;
 
-import dto.DeutschClassDataDto;
+import dto.DeutschChapterDataDto;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +19,7 @@ public interface IWarumNichtXmlReader {
 
     String getRootName() throws Exception;
 
-    ArrayList<DeutschClassDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException;
+    ArrayList<DeutschChapterDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException;
 
     String gtFilePath();
 }

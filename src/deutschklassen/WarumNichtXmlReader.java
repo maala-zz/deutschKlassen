@@ -6,7 +6,7 @@
 package deutschklassen;
 
 import Interface.IWarumNichtXmlReader;
-import dto.DeutschClassDataDto;
+import dto.DeutschChapterDataDto;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 public class WarumNichtXmlReader implements IWarumNichtXmlReader {
 
-    //<editor-fold defaultstate="collapsed" desc="Proprties">
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private final String filePath;
     private final File file;
 
@@ -46,7 +46,6 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
             Document doc = db.parse(this.file);
             doc.getDocumentElement().normalize();
             String rootName = doc.getDocumentElement().getNodeName();
-            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
             return rootName;
         } catch (IOException ex) {
             System.out.println("IOException " + ex.getMessage());
@@ -58,7 +57,7 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
     }
 
     @Override
-    public ArrayList<DeutschClassDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException {
+    public ArrayList<DeutschChapterDataDto> getLessonsLinksWithTag(String tag) throws IOException, SAXException, ParserConfigurationException {
         try {
             ArrayList links = new ArrayList<String>(); // returned array
             this.db = dbf.newDocumentBuilder();
@@ -74,11 +73,8 @@ public class WarumNichtXmlReader implements IWarumNichtXmlReader {
                     String classLink = eElement.getElementsByTagName("link").item(0).getTextContent();
                     String classTitle = eElement.getElementsByTagName("title").item(0).getTextContent();
                     String classDescription = eElement.getElementsByTagName("description").item(0).getTextContent();
-                    DeutschClassDataDto data = new DeutschClassDataDto(classLink, classTitle, classDescription);
+                    DeutschChapterDataDto data = new DeutschChapterDataDto(classLink, classTitle, classDescription);
                     links.add(data);
-                    System.out.println("Debug class link: " + classLink);
-                    System.out.println("Debug class title: " + classTitle);
-                    System.out.println("Debug class description: " + classDescription);
                 }
             }
             return links;
